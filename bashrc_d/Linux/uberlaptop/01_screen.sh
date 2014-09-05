@@ -1,0 +1,1 @@
+/home/greyfox/bashrc_d/scripts/screen.sh

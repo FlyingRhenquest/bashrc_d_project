@@ -1,0 +1,38 @@
+Bashrc project. My home bashrc iterates down into this directory. It
+first runs (sources) bashrc_d/`uname -s`/`hostname -s`/*.sh. Then it
+runs bashrc_d/`uname -s`/all/*.sh. Then it runs bashrc_d/all/*.sh.
+You could optionally add a pre-init/post-init phase to this, but I've never
+found the need to do that, and I run some pretty complex environmental
+configs on my systems.
+
+It sources the scripts in alphabetic order, so if you want something
+to run before something else, you can adjust its filename. You can
+use the rc_d trick of prefixing files with numbers if you wish (1_blarg.sh
+will run before 2_blarg.sh etc, but keep in mind that numbers are
+sorted alphabetically, not numerically.
+
+In the top level bashrc_d directory there's a scripts directory you can
+put scripts in. For scripts that don't need to change, you can put them
+there and symlink them to the systems you want them to run on. You can
+put scripts that need to change there too, and just copy them into the
+system directories when you want to change them. If you need more scripts
+directories at the OS levels, feel free to make them.
+
+To make a new directory for a new system, (Note backticks) 
+mkdir ~/bashrc_d/`uname -s`/`hostname -s` && 
+ln -s ~/bashrc_d/scripts/placeholder.sh 
+~/bashrc_d/`uname -s`/`hostname -s`/placeholder.sh (You can remove
+the placeholder once you start symlinking scripts into that directory
+to configure the system environment.
+
+Check the bashrc_d/Linux (Assuming you're running Linux) directory
+to make sure it's the way you want it prior to installing. I install
+bash completion, turn off Ubuntu's obnoxious "command not found" message
+and set my prompt the way I like it. YMMV.
+
+If you want your default environment to be gnu screen, symlink
+scripts/screen.sh to 01_screen.sh (or 01_a_screen.sh) on each machine
+you want this to happen on. This would be a good argument for a pre-init
+phase if you want screen to run everywhere, since you'd typically want
+screen to run before anything else. The screen.sh script will not run
+screen if the terminal is not interactive or if screen is already running.
